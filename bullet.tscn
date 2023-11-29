@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cm7qi7nulqttb"]
+
+[ext_resource type="Script" path="res://bullet.gd" id="1_3nsqi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xvs15"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_57jxx"]
+
+[node name="Bullet" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 5
+mass = 0.01
+gravity_scale = 0.0
+max_contacts_reported = 10
+contact_monitor = true
+script = ExtResource("1_3nsqi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("BoxShape3D_xvs15")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("BoxMesh_57jxx")
+skeleton = NodePath("../..")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2hxocbvsrac8"]
+
+[ext_resource type="Script" path="res://explosion.gd" id="1_6dfk8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7idco"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dt0ch"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.65098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tnx8q"]
+material = SubResource("StandardMaterial3D_dt0ch")
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_6dfk8")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_7idco")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/CollisionShape3D"]
+transform = Transform3D(1.05394, 0, 0, 0, 1.05394, 0, 0, 0, 1.05394, 0, 0, 0)
+mesh = SubResource("SphereMesh_tnx8q")
+skeleton = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
